@@ -1,0 +1,41 @@
+<div class="header">
+  <div class="top">
+    <div class="top_nav_bg">
+      <div class="top_nav_center">
+        <div class="top_nav" style="float: left">
+          <a href="/">首页</a>
+        </div>
+        <div class="top_nav">
+          <#if sessionUser??>
+            <a href="/info" class="nobg">[个人中心]</a>
+            <#if sessionUser.type == 'STUDENT' || sessionUser.type == 'TEACHER'>
+              <a href="/orders/me" class="nobg">[我的预定]</a>
+              <a href="/message/send" class="nobg">[去留言]</a>
+            <#else>
+              <#if  sessionUser.type == 'LANDLORD' >
+                <a href="/message/index" class="nobg">[留言板]</a>
+              </#if>
+
+              <a href="/orders/approval" class="nobg">[我的审批]</a>
+            </#if>
+            <a href="/modifyPwd" class="nobg">[修改密码]</a>
+            <a href="/logout" class="nobg">[退出登录]</a>
+
+          <#else>
+            <a href="/login" class="nobg">[登录]</a>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="logo_bg">
+    <div class="logo_bg_center">
+      <div class="logo_logo">
+        <img src="/img/logo_lut.png">
+      </div>
+      <div class="title">兰州理工大学教室管理系统</div>
+      <div class="title_down">Lanzhou University of Technology Classroom Management System</div>
+      <div class="img"><img src="/img/logo_r.png" alt=""></div>
+    </div>
+  </div>
+</div>

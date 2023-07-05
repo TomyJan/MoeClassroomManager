@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<#include "../common/head.html"/>
+<body>
+<section class="content-header">
+  <h1>审批管理</h1>
+</section>
+<section class="content table-content">
+  <#include "../common/messageTip.html"/>
+  <table id="dataGrid"></table>
+</section>
+<div id="toolbar">
+  <form role="form" id="searchForm" class="form-inline">
+
+    <div class="input-group">
+      <span class="input-group-addon">预约用户名字</span>
+      <input type="text" class="form-control" name="userName">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">教学楼名字</span>
+      <input type="text" class="form-control" name="floorName">
+    </div>
+    <div>
+      <button type="button" id="searchBtn" class="btn btn-primary">查询</button>
+      <button type="reset" class="btn btn-warning">清空</button>
+    </div>
+  </form>
+
+</div>
+<#include "../common/footer.html"/>
+<#include "../common/bootstrap-table.html"/>
+</body>
+<script type="text/javascript">
+    /**
+     * 表单初始化
+     */
+    $(function () {
+        initDataGrid('/console/approval/list', [
+            {
+                title: "序号", field: "id", formatter: function (value, row, index) {
+                    //获取每页显示的数量
+                    var pageSize = $table.bootstrapTable('getOptions').pageSize;
+                    //获取当前是第几页
+                    var pageNumber = $table.bootstrapTable('getOptions').pageNumber;
+                    //返回序号，注意index是从0开始的，所以要加上1
+                    return pageSize * (pageNumber - 1) + index + 1;
+                }
+            },
+            {title: "预约用户", field: "userName"},
+            {title: "预约教室", field: "roomName"},
+            {title: "预约教学楼", field: "floorName"},
+            {title: "预约日期", field: "orderTime"},
+            {title: "预约时间", field: "week", formatter: getClass},
+            {title: "一级评审人", field: "opinionUser1"},
+            {title: "二级评审人", field: "opinionUser2"},
+            {title: "一级评审意见", field: "opinion1"},
+            {title: "二级评审意见", field: "opinion2"},
+            {title: "预约状态", field: "status", formatter: getStatus},
+            {title: "添加时间", field: "createTime"}
+        ]);
+    });
+
+
+    function getClass(value, row, index) {
+        var content = "";
+        value = value + ",";
+        if (value.indexOf("1") !== -1) {
+            content += "上午第一大节 "
+        }
+        if (value.indexOf("2") !== -1) {
+            content += "上午第二大节 "
+        }
+        if (value.indexOf("3") !== -1) {
+            content += "下午第一大节 "
+        }
+        if (value.indexOf("4") !== -1) {
+            content += "下午第二大节 "
+        }
+        if (value.indexOf("5") !== -1) {
+            content += "晚上第一大节 "
+        }
+        if (value.indexOf("6") !== -1) {
+            content += "晚上第二大节 "
+        }
+        return content;
+    }
+
+    function getStatus(value, row, index) {
+        if (value === 'WAIT') {
+            return "待审核";
+        }
+        if (value === 'AGREE_1') {
+            return "一级评审同意";
+        }
+        if (value === 'REJECT_1') {
+            return "一级评审拒绝";
+        }
+        if (value === 'AGREE_2') {
+            return "二级评审同意";
+        }
+        if (value === 'REJECT_2') {
+            return "二级评审拒绝";
+        }
+
+    }
+
+
+</script>
+</html>

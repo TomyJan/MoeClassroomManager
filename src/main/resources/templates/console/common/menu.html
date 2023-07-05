@@ -1,0 +1,100 @@
+<ul class="sidebar-menu">
+  <li class="header">控制面板</li>
+  <li class="treeview">
+    <a href="/console/main" target="mainFrame">
+      <i class="fa fa-dashboard"></i>
+      <b>控制台</b>
+    </a>
+  </li>
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-dashboard"></i>
+      <b>用户管理</b>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="/console/user/index" target="mainFrame"><b>用户列表</b></a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-dashboard"></i>
+      <b>教学楼管理</b>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="/console/floor/index" target="mainFrame"><b>教学楼列表</b></a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-dashboard"></i>
+      <b>教室管理</b>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="/console/room/index" target="mainFrame"><b>教室列表</b></a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-dashboard"></i>
+      <b>审批管理</b>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="/console/approval/index" target="mainFrame"><b>审批列表</b></a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-dashboard"></i>
+      <b>班级管理</b>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="/console/classes/index" target="mainFrame"><b>班级列表</b></a>
+      </li>
+    </ul>
+  </li>
+
+  <#if sessionAdmin.type == 'admin'>
+    <li class="treeview">
+      <a href="#">
+        <i class="fa fa-dashboard"></i>
+        <b>管理员管理</b>
+        <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+      </a>
+      <ul class="treeview-menu">
+        <li>
+          <a href="/console/admin/index" target="mainFrame"><b>管理员列表</b></a>
+        </li>
+      </ul>
+    </li>
+  </#if>
+</ul>

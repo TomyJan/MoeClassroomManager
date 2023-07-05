@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<#include "../common/head.html"/>
+<body>
+<section class="content">
+  <#include "../common/messageTip.html"/>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">${(!user.id??)?string('添加','修改')} 用户</h3>
+        </div>
+        <div class="box-body">
+          <form class="form-horizontal js-ajax-form" action="/console/user/merge" method="post">
+            <input type="hidden" name="id" value="${user.id!}"/>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">用户名</label>
+              <div class="col-sm-10">
+                <input type="text" name="username" class="form-control" value="${user.username!}"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="col-sm-2 control-label">姓名</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" class="form-control" value="${user.name!}"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="col-sm-2 control-label">电话</label>
+              <div class="col-sm-10">
+                <input type="text" name="phone" class="form-control" value="${user.phone!}"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="col-sm-2 control-label">邮箱</label>
+              <div class="col-sm-10">
+                <input type="email" name="email" class="form-control" value="${user.email!}"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="col-sm-2 control-label">密码</label>
+              <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" id="password"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-2 control-label">用户类型</label>
+              <div class="col-sm-10">
+                <select name="type" class="form-control" onchange="typeChange()" id="type">
+
+                  <option <#if user.type! == "COUNSELOR">selected</#if> value="COUNSELOR">辅导员</option>
+                  <option <#if user.type! == "LANDLORD">selected</#if> value="LANDLORD">楼主</option>
+                  <option <#if user.type! == "TEACHER">selected</#if> value="TEACHER">教师</option>
+                  <option <#if user.type! == "STUDENT">selected</#if> value="STUDENT">学生</option>
+                </select>
+              </div>
+            </div>
+            <div id="cla" class="form-group" <#if user.type! != 'STUDENT'>style="display: none;" </#if>>
+              <label class="col-sm-2 control-label">学生所属班级</label>
+              <div class="col-sm-10">
+                <select name="classesId" class="form-control">
+                  <#list classesList as item>
+                    <option <#if item.id ==  user.classesId!0  >selected</#if> value="${item.id}">${item.name}</option>
+                  </#list>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">提交</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<#include "../common/footer.html"/>
+<script>
+    function typeChange() {
+        var type = $("#type").val();
+        if (type == "STUDENT") {
+            $("#cla").show();
+        } else {
+            $("#cla").hide();
+        }
+
+    }
+</script>
+</body>
+</html>
