@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
-    private UserMapper  userMapper;
+    private UserMapper userMapper;
     @Autowired
     private AdminMapper adminMapper;
 
@@ -37,7 +37,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
             user.setPassword(password);
             userMapper.insertSelective(user);
         } else {
-            boolean exist = isExist(new MybatisCondition().eq("username", user.getUsername()).eqNot("id", user.getId()));
+            boolean exist = isExist(
+                    new MybatisCondition().eq("username", user.getUsername()).eqNot("id", user.getId()));
             if (exist) {
                 throw new MessageException("用户名已存在");
             }

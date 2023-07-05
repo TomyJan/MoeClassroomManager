@@ -1,5 +1,4 @@
 
-
 package tomyjan.moeclassroommanager;
 
 import org.springframework.boot.SpringApplication;

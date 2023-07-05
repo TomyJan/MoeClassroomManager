@@ -28,23 +28,21 @@ import javax.validation.Valid;
 @RequestMapping("console/user")
 public class UserController extends BaseController {
 
-
     @Autowired
-    private UserService       userService;
+    private UserService userService;
     @Autowired
     private FileUploadService fileUploadService;
     @Autowired
-    private ClassesService    classesService;
+    private ClassesService classesService;
 
     @Operation("查看用户列表")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
         return "console/user/index";
     }
 
-
     @Operation("用户详情")
-    @RequestMapping(value = "/detail/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/detail/{id}", method = { RequestMethod.GET })
     public String detail(@PathVariable Integer id, Model model) {
         User user = userService.selectByPrimaryKey(id);
         if (null != user) {
@@ -60,19 +58,20 @@ public class UserController extends BaseController {
      * 异步加载用户列表
      *
      * @param user
+     *
      * @return
      */
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/list", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap list(User user) {
-        ModelMap       map      = new ModelMap();
+        ModelMap map = new ModelMap();
         PageInfo<User> pageInfo = userService.selectPage(user);
         map.put("pageInfo", pageInfo);
         return ReturnUtils.success("加载成功", map, null);
     }
 
     @Operation("更新用户信息")
-    @RequestMapping(value = "/merge", method = {RequestMethod.POST})
+    @RequestMapping(value = "/merge", method = { RequestMethod.POST })
     public String merge(@Valid User user, BindingResult result, RedirectAttributes attributes, MultipartFile file) {
         try {
             if (result.hasErrors()) {
@@ -93,7 +92,7 @@ public class UserController extends BaseController {
     }
 
     @Operation("删除用户")
-    @RequestMapping(value = "/delete", method = {RequestMethod.GET})
+    @RequestMapping(value = "/delete", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap delete(Integer id) {
         userService.deleteById(id);

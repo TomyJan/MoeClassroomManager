@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 public class ConsoleInterceptor implements HandlerInterceptor {
     private static final String SESSION_ADMIN = "sessionAdmin";
 
-
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         Object attribute = request.getSession().getAttribute(SESSION_ADMIN);
         String contextPath = request.getContextPath();
         if (null == attribute) {

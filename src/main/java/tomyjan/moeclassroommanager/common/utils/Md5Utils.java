@@ -8,6 +8,7 @@ public class Md5Utils {
      * 密码加密
      *
      * @param password
+     *
      * @return
      */
     public static String encode(String password) {
@@ -27,7 +28,7 @@ public class Md5Utils {
         for (int i = 0; i < charArray.length; i++) {
             byteArray[i] = (byte) charArray[i];
         }
-        byte[]       md5Bytes = md5.digest(byteArray);
+        byte[] md5Bytes = md5.digest(byteArray);
         StringBuffer hexValue = new StringBuffer();
         for (int i = 0; i < md5Bytes.length; i++) {
             int val = ((int) md5Bytes[i]) & 0xff;

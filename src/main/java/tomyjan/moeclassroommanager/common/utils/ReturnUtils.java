@@ -14,6 +14,7 @@ public class ReturnUtils {
      * @param msg
      * @param obj
      * @param referer
+     *
      * @return
      */
     public static ModelMap success(String msg, Object obj, String referer) {
@@ -26,6 +27,7 @@ public class ReturnUtils {
      *
      * @param msg
      * @param obj
+     *
      * @return
      */
     public static ModelMap success(String msg, Object obj) {
@@ -37,6 +39,7 @@ public class ReturnUtils {
      * 操作成功
      *
      * @param msg
+     *
      * @return
      */
     public static ModelMap success(String msg) {
@@ -50,6 +53,7 @@ public class ReturnUtils {
      * @param msg
      * @param obj
      * @param referer
+     *
      * @return
      */
     public static ModelMap error(String msg, Object obj, String referer) {
@@ -62,6 +66,7 @@ public class ReturnUtils {
      *
      * @param msg
      * @param obj
+     *
      * @return
      */
     public static ModelMap error(String msg, Object obj) {
@@ -73,13 +78,13 @@ public class ReturnUtils {
      * 操作失败
      *
      * @param msg
+     *
      * @return
      */
     public static ModelMap error(String msg) {
         msg = StringUtils.isEmpty(msg) || StringUtils.isBlank(msg) ? "操作失败" : msg;
         return fullMap(0, "error", msg, null, null);
     }
-
 
     /**
      * 填充返回数据
@@ -89,6 +94,7 @@ public class ReturnUtils {
      * @param msg
      * @param referer
      * @param result
+     *
      * @return
      */
     private static ModelMap fullMap(Integer status, String state, String msg, String referer, Object result) {

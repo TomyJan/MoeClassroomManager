@@ -28,18 +28,18 @@ import javax.validation.Valid;
 public class RoomController extends BaseController {
 
     @Autowired
-    private RoomService  roomService;
+    private RoomService roomService;
     @Autowired
     private FloorService floorService;
 
     @Operation("查看教学楼")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
         return "console/room/index";
     }
 
     @Operation("教学楼详情")
-    @RequestMapping(value = "detail/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "detail/{id}", method = { RequestMethod.GET })
     public String from(@PathVariable Integer id, Model model) {
         Room room;
         if (id != 0) {
@@ -53,7 +53,7 @@ public class RoomController extends BaseController {
     }
 
     @Operation("添加更新教学楼")
-    @RequestMapping(value = "/merge", method = {RequestMethod.POST})
+    @RequestMapping(value = "/merge", method = { RequestMethod.POST })
     public String save(@Valid Room room, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             throw new MessageException(result.getAllErrors().get(0).getDefaultMessage());
@@ -63,7 +63,7 @@ public class RoomController extends BaseController {
     }
 
     @Operation("删除教学楼")
-    @RequestMapping(value = "/delete", method = {RequestMethod.GET})
+    @RequestMapping(value = "/delete", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap delete(Integer id) {
         roomService.deleteByPrimaryKey(id);
@@ -71,18 +71,14 @@ public class RoomController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/list", method = { RequestMethod.GET })
     public ModelMap list(RoomDTO room) {
         ModelMap map = new ModelMap();
-        MybatisCondition condition = new MybatisCondition()
-                .like("r.name", room.getName())
-                .like("f.name", room.getFloorName())
-                .like("r.floor", room.getFloor())
-                .page(room);
+        MybatisCondition condition = new MybatisCondition().like("r.name", room.getName())
+                .like("f.name", room.getFloorName()).like("r.floor", room.getFloor()).page(room);
         PageInfo<RoomDTO> pageInfo = roomService.selectDtoPage(condition);
         map.put("pageInfo", pageInfo);
         return ReturnUtils.success("加载成功", map);
     }
-
 
 }

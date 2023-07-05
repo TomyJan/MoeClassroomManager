@@ -33,7 +33,7 @@ public class ApprovalController extends BaseController {
     private ApprovalService approvalService;
 
     @Operation("查看审批列表")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
         return "console/approval/index";
     }
@@ -42,23 +42,22 @@ public class ApprovalController extends BaseController {
      * 异步加载列表
      *
      * @param approval
+     *
      * @return
      */
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/list", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap list(ApprovalDTO approval) {
         ModelMap map = new ModelMap();
-        MybatisCondition condition = new MybatisCondition()
-                .like("u.name", approval.getUserName())
-                .like("f.name", approval.getFloorName())
-                .order("a.id", false);
+        MybatisCondition condition = new MybatisCondition().like("u.name", approval.getUserName())
+                .like("f.name", approval.getFloorName()).order("a.id", false);
         PageInfo<ApprovalDTO> pageInfo = approvalService.selectDtoPage(condition);
         map.put("pageInfo", pageInfo);
         return ReturnUtils.success("加载成功", map, null);
     }
 
     @Operation("更新审批")
-    @RequestMapping(value = "/merge", method = {RequestMethod.POST})
+    @RequestMapping(value = "/merge", method = { RequestMethod.POST })
     public String merge(@Valid Approval approval, BindingResult result, RedirectAttributes attributes) {
         try {
             if (result.hasErrors()) {
@@ -72,7 +71,7 @@ public class ApprovalController extends BaseController {
     }
 
     @Operation("审批详情")
-    @RequestMapping(value = "/detail/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/detail/{id}", method = { RequestMethod.GET })
     public String detail(@PathVariable Integer id, Model model) {
         Approval approval = approvalService.selectByPrimaryKey(id);
         if (null == approval) {

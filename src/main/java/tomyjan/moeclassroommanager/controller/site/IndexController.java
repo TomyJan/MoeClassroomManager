@@ -47,10 +47,11 @@ public class IndexController extends BaseController {
      * 首页
      *
      * @param model
+     *
      * @return
      */
     @Operation(value = "首页", needLogin = true)
-    @RequestMapping(value = {"/", "index"}, method = {RequestMethod.GET})
+    @RequestMapping(value = { "/", "index" }, method = { RequestMethod.GET })
     public String index(Model model) {
         List<Floor> floorList = floorService.selectAll();
         model.addAttribute("floorList", floorList);
@@ -60,15 +61,22 @@ public class IndexController extends BaseController {
     /**
      * 预约搜索
      *
-     * @param floor   楼层
-     * @param date    时间
-     * @param scale   规格
-     * @param floorId 教学楼
-     * @param week    课节
+     * @param floor
+     *            楼层
+     * @param date
+     *            时间
+     * @param scale
+     *            规格
+     * @param floorId
+     *            教学楼
+     * @param week
+     *            课节
+     *
      * @return
      */
     @GetMapping("search")
-    public String search(String floor, String date, String scale, Integer floorId, String week, Model model, RedirectAttributes attributes) {
+    public String search(String floor, String date, String scale, Integer floorId, String week, Model model,
+            RedirectAttributes attributes) {
         // 时间判断
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         if (localDate.compareTo(LocalDate.now()) < 0) {
@@ -78,11 +86,9 @@ public class IndexController extends BaseController {
             return refresh("只能预约一周以内的时间", attributes);
         }
         // 得到符合条件的所有教室
-        MybatisCondition condition = new MybatisCondition()
-                .eq("r.floor_id", floorId)
-                .eq("r.scale", scale)
-                .eq("r.floor", floor);
-        List<RoomDTO>     roomList = roomService.selectDto(condition);
+        MybatisCondition condition = new MybatisCondition().eq("r.floor_id", floorId).eq("r.scale", scale).eq("r.floor",
+                floor);
+        List<RoomDTO> roomList = roomService.selectDto(condition);
         Iterator<RoomDTO> iterator = roomList.iterator();
         while (iterator.hasNext()) {
             RoomDTO roomDTO = iterator.next();
@@ -114,19 +120,22 @@ public class IndexController extends BaseController {
 
     @Operation("登录")
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String loginPost(@Valid ValidUser validUser, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String loginPost(@Valid ValidUser validUser, BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE, bindingResult.getAllErrors().get(0).getDefaultMessage());
+            redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE,
+                    bindingResult.getAllErrors().get(0).getDefaultMessage());
             return "redirect:login";
         }
         String username = validUser.getUsername();
-        User   user     = (User) userService.login(validUser.getUsername(), validUser.getPassword(), User.UserRoleEnum.USER);
+        User user = (User) userService.login(validUser.getUsername(), validUser.getPassword(), User.UserRoleEnum.USER);
         if (null == user) {
             redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE, "用户名或密码不正确");
             return "redirect:login";
         } else {
             logger.info("用户[" + username + "]登录认证通过");
-            loginLogService.insertSelective(new LoginLog().setIp(request.getRemoteAddr()).setUserId(user.getId()).setUsername(user.getUsername()));
+            loginLogService.insertSelective(new LoginLog().setIp(request.getRemoteAddr()).setUserId(user.getId())
+                    .setUsername(user.getUsername()));
             session.setAttribute(Constant.SESSION_USER, user);
             if (user.getType() == User.UserTypeEnum.STUDENT || user.getType() == User.UserTypeEnum.TEACHER) {
                 return "redirect:index";
@@ -139,6 +148,7 @@ public class IndexController extends BaseController {
      * 退出登录
      *
      * @param redirectAttributes
+     *
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -154,13 +164,13 @@ public class IndexController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/modifyPwd", method = {RequestMethod.GET})
+    @RequestMapping(value = "/modifyPwd", method = { RequestMethod.GET })
     public String modifyPwd() {
         return "site/modify-pwd";
     }
 
     @Operation("修改用户密码")
-    @RequestMapping(value = "/modifyPwd", method = {RequestMethod.POST})
+    @RequestMapping(value = "/modifyPwd", method = { RequestMethod.POST })
     public String modifyPwd(String pwd, String password, String password2, RedirectAttributes attributes) {
         if (!password.equals(password2)) {
             return redirect("/modifyPwd", "两次密码不一样", attributes);
@@ -184,7 +194,7 @@ public class IndexController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/info", method = {RequestMethod.GET})
+    @RequestMapping(value = "/info", method = { RequestMethod.GET })
     @Operation(value = "个人信息", needLogin = true)
     public String info(Model model) {
         model.addAttribute("user", userService.selectByPrimaryKey(loginUser().getId()));
@@ -192,12 +202,11 @@ public class IndexController extends BaseController {
     }
 
     @Operation(value = "修改用户信息", needLogin = true)
-    @RequestMapping(value = "/updateInfo", method = {RequestMethod.POST})
+    @RequestMapping(value = "/updateInfo", method = { RequestMethod.POST })
     public String updateInfo(User user, RedirectAttributes attributes) {
         userService.updateByPrimaryKeySelective(user);
         return refresh("修改成功", attributes);
     }
-
 
     /**
      * 判断这天有没有被预约
@@ -205,13 +214,11 @@ public class IndexController extends BaseController {
      * @param room
      * @param date
      * @param week
+     *
      * @return
      */
     private boolean checkOrders(RoomDTO room, String date, String week) {
-        Approval approval = new Approval()
-                .setWeek(week)
-                .setRoomId(room.getId())
-                .setOrderTime(date);
+        Approval approval = new Approval().setWeek(week).setRoomId(room.getId()).setOrderTime(date);
         int count = approvalService.selectCount(approval);
         return count > 0;
     }
@@ -222,27 +229,28 @@ public class IndexController extends BaseController {
      * @param room
      * @param date
      * @param week
+     *
      * @return
      */
     private boolean checkWeek(RoomDTO room, String date, String week) {
         // 判断日期是周几
         int value = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")).getDayOfWeek().getValue();
         switch (value) {
-            case 1:
-                return room.getWeek1().contains(week);
-            case 2:
-                return room.getWeek2().contains(week);
-            case 3:
-                return room.getWeek3().contains(week);
-            case 4:
-                return room.getWeek4().contains(week);
-            case 5:
-                return room.getWeek5().contains(week);
-            case 6:
-                return room.getWeek6().contains(week);
-            case 7:
-                return room.getWeek7().contains(week);
-            default:
+        case 1:
+            return room.getWeek1().contains(week);
+        case 2:
+            return room.getWeek2().contains(week);
+        case 3:
+            return room.getWeek3().contains(week);
+        case 4:
+            return room.getWeek4().contains(week);
+        case 5:
+            return room.getWeek5().contains(week);
+        case 6:
+            return room.getWeek6().contains(week);
+        case 7:
+            return room.getWeek7().contains(week);
+        default:
         }
         return false;
     }

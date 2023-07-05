@@ -26,21 +26,18 @@ public class MessageController extends BaseController {
     @Autowired
     private MessageService messageService;
     @Autowired
-    private FloorService   floorService;
+    private FloorService floorService;
     @Autowired
-    private RoomService    roomService;
+    private RoomService roomService;
 
     @Operation("查看留言列表")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
-        MybatisCondition condition = new MybatisCondition()
-                .eq("f.user_id", loginUser().getId())
-                .order("m.id", false);
+        MybatisCondition condition = new MybatisCondition().eq("f.user_id", loginUser().getId()).order("m.id", false);
         PageInfo<MessageDTO> pageInfo = messageService.selectDtoPage(condition);
         model.addAttribute(pageInfo);
         return "site/message/index";
     }
-
 
     /**
      * 留言
@@ -56,6 +53,7 @@ public class MessageController extends BaseController {
      *
      * @param message
      * @param attributes
+     *
      * @return
      */
     @PostMapping("send")
@@ -66,7 +64,7 @@ public class MessageController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/roomList", method = {RequestMethod.GET})
+    @RequestMapping(value = "/roomList", method = { RequestMethod.GET })
     public ModelMap list(RoomDTO room) {
         ModelMap map = new ModelMap();
         map.put("list", roomService.select(new Room().setFloorId(room.getFloorId())));

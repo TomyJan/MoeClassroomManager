@@ -13,7 +13,9 @@ public interface ApprovalMapper extends CustomerMapper<Approval> {
 
     /**
      * 列表
+     *
      * @param mybatisCondition
+     *
      * @return
      */
     List<ApprovalDTO> selectDto(MybatisCondition mybatisCondition);

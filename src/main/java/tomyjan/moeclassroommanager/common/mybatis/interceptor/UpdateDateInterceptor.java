@@ -21,11 +21,10 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * 自动添加时间
- * 添加的时候和更新的时候
+ * 自动添加时间 添加的时候和更新的时候
  */
 @Slf4j
-@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
+@Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }) })
 @Component
 public class UpdateDateInterceptor implements Interceptor {
 
@@ -57,8 +56,10 @@ public class UpdateDateInterceptor implements Interceptor {
     /**
      * 设置属性时间
      *
-     * @param parameter      参数对象
-     * @param sqlCommandType 类型
+     * @param parameter
+     *            参数对象
+     * @param sqlCommandType
+     *            类型
      */
     private void setFieldDateTime(Object parameter, SqlCommandType sqlCommandType) {
         if (parameter != null) {
@@ -68,9 +69,9 @@ public class UpdateDateInterceptor implements Interceptor {
                 if (!field.isAnnotationPresent(AutoTime.class)) {
                     continue;
                 }
-                AutoTime autoTime   = field.getAnnotation(AutoTime.class);
-                boolean  needInsert = sqlCommandType == SqlCommandType.INSERT && autoTime.insert();
-                boolean  needUpdate = sqlCommandType == SqlCommandType.UPDATE && autoTime.update();
+                AutoTime autoTime = field.getAnnotation(AutoTime.class);
+                boolean needInsert = sqlCommandType == SqlCommandType.INSERT && autoTime.insert();
+                boolean needUpdate = sqlCommandType == SqlCommandType.UPDATE && autoTime.update();
                 if (needInsert || needUpdate) {
                     setFieldValue(parameter, field);
                 }

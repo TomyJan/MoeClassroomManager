@@ -23,14 +23,13 @@ public class BaseDomain {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer       id;
+    private Integer id;
     @AutoTime(insert = true, update = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
     @AutoTime(insert = true, update = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
-
 
     @Transient
     private Integer offset = 0;

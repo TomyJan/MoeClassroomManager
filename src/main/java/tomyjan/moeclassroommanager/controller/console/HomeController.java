@@ -31,37 +31,36 @@ import java.util.Map;
 @Slf4j
 public class HomeController extends BaseController {
 
-
     @Autowired
-    private UserService  userService;
+    private UserService userService;
     @Autowired
-    private RoomService  roomService;
+    private RoomService roomService;
     @Autowired
     private FloorService floorService;
     @Autowired
     private AdminService adminService;
 
-
     /**
      * 首页
      *
      * @param model
+     *
      * @return
      */
-    @RequestMapping(value = "index", method = {RequestMethod.GET})
+    @RequestMapping(value = "index", method = { RequestMethod.GET })
 
     public String index(Model model) {
         return "console/index";
     }
 
-
     /**
      * 首页展示
      *
      * @param model
+     *
      * @return
      */
-    @RequestMapping(value = "main", method = {RequestMethod.GET})
+    @RequestMapping(value = "main", method = { RequestMethod.GET })
     public String right(Model model) {
         model.addAllAttributes(this.getTotal());
         return "console/right";
@@ -79,13 +78,16 @@ public class HomeController extends BaseController {
 
     @Operation("登录")
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String loginPost(@Valid ValidUser validUser, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String loginPost(@Valid ValidUser validUser, BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE, bindingResult.getAllErrors().get(0).getDefaultMessage());
+            redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE,
+                    bindingResult.getAllErrors().get(0).getDefaultMessage());
             return "redirect:login";
         }
         String username = validUser.getUsername();
-        Admin  admin    = (Admin) userService.login(validUser.getUsername(), validUser.getPassword(), User.UserRoleEnum.ADMIN);
+        Admin admin = (Admin) userService.login(validUser.getUsername(), validUser.getPassword(),
+                User.UserRoleEnum.ADMIN);
         if (null == admin) {
             redirectAttributes.addFlashAttribute(Constant.ERROR_MESSAGE, "用户名或密码不正确");
             return "redirect:login";
@@ -100,6 +102,7 @@ public class HomeController extends BaseController {
      * 退出登录
      *
      * @param redirectAttributes
+     *
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -115,13 +118,13 @@ public class HomeController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/modifyPwd", method = {RequestMethod.GET})
+    @RequestMapping(value = "/modifyPwd", method = { RequestMethod.GET })
     public String modifyPwd() {
         return "console/modify-pwd";
     }
 
     @Operation("修改用户密码")
-    @RequestMapping(value = "/modifyPwd", method = {RequestMethod.POST})
+    @RequestMapping(value = "/modifyPwd", method = { RequestMethod.POST })
     public String modifyPwd(String pwd, String password, String password2, RedirectAttributes attributes) {
         if (!password.equals(password2)) {
             return redirect("/console/modifyPwd", "两次密码不一样", attributes);
@@ -140,15 +143,14 @@ public class HomeController extends BaseController {
         }
     }
 
-
     /**
      * 首页展示数据
      *
      * @return
      */
     private Map<String, Object> getTotal() {
-        Integer             userCount = userService.selectCount(new User());
-        Map<String, Object> mp        = new HashMap<>(4);
+        Integer userCount = userService.selectCount(new User());
+        Map<String, Object> mp = new HashMap<>(4);
         mp.put("userCount", userCount);
         mp.put("roomCount", roomService.selectCount(new Room()));
         mp.put("floorCount", floorService.selectCount(new Floor()));

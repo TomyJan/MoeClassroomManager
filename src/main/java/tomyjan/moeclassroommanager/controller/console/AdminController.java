@@ -29,19 +29,17 @@ import javax.validation.Valid;
 @RequestMapping("console/admin")
 public class AdminController extends BaseController {
 
-
     @Autowired
     private AdminService adminService;
 
     @Operation("查看管理员列表")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
         return "console/admin/index";
     }
 
-
     @Operation("管理员详情")
-    @RequestMapping(value = "/detail/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/detail/{id}", method = { RequestMethod.GET })
     public String detail(@PathVariable Integer id, Model model) {
         Admin admin = adminService.selectByPrimaryKey(id);
         if (null != admin) {
@@ -56,19 +54,20 @@ public class AdminController extends BaseController {
      * 异步加载管理员列表
      *
      * @param admin
+     *
      * @return
      */
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/list", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap list(Admin admin) {
-        ModelMap        map      = new ModelMap();
+        ModelMap map = new ModelMap();
         PageInfo<Admin> pageInfo = adminService.selectPage(admin);
         map.put("pageInfo", pageInfo);
         return ReturnUtils.success("加载成功", map, null);
     }
 
     @Operation("更新管理员信息")
-    @RequestMapping(value = "/merge", method = {RequestMethod.POST})
+    @RequestMapping(value = "/merge", method = { RequestMethod.POST })
     public String merge(@Valid Admin admin, BindingResult result, RedirectAttributes attributes, MultipartFile file) {
         try {
             if (result.hasErrors()) {
@@ -83,7 +82,7 @@ public class AdminController extends BaseController {
             if (admin.getId() != null) {
                 condition.eqNot("id", admin.getId());
             }
-            if(adminService.isExist(condition)){
+            if (adminService.isExist(condition)) {
                 throw new MessageException("用户名已经存在");
             }
 
@@ -101,7 +100,7 @@ public class AdminController extends BaseController {
     }
 
     @Operation("删除管理员")
-    @RequestMapping(value = "/delete", method = {RequestMethod.GET})
+    @RequestMapping(value = "/delete", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap delete(Integer id) {
         adminService.deleteByPrimaryKey(id);

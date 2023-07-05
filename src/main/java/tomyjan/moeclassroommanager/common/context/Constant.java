@@ -3,7 +3,7 @@ package tomyjan.moeclassroommanager.common.context;
 /**
  * 环境变量
  */
-public interface Constant{
+public interface Constant {
 
     /**
      * session 用户

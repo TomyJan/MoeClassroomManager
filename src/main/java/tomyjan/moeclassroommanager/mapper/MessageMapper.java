@@ -11,7 +11,9 @@ public interface MessageMapper extends CustomerMapper<Message> {
 
     /**
      * 通过条件查找
+     *
      * @param condition
+     *
      * @return
      */
     List<MessageDTO> selectDto(MybatisCondition condition);

@@ -27,20 +27,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 拦截器配置
+     *
      * @param registry
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(consoleInterceptor)
-                .addPathPatterns("/console/**")
-                .excludePathPatterns("/console/login", "/console/logout");
+        registry.addInterceptor(consoleInterceptor).addPathPatterns("/console/**").excludePathPatterns("/console/login",
+                "/console/logout");
 
-        registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/admin/**");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/admin/**");
 
-        registry.addInterceptor(paramInterceptor)
-                .addPathPatterns("/**");
+        registry.addInterceptor(paramInterceptor).addPathPatterns("/**");
     }
 
     /**
@@ -50,8 +47,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
         registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/static/assets/");

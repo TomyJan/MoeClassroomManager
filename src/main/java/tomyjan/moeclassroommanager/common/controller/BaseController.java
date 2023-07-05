@@ -1,6 +1,5 @@
 package tomyjan.moeclassroommanager.common.controller;
 
-
 import tomyjan.moeclassroommanager.common.context.Constant;
 import tomyjan.moeclassroommanager.domain.Admin;
 import tomyjan.moeclassroommanager.domain.User;
@@ -12,13 +11,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 @Slf4j
 public abstract class BaseController implements Constant {
     protected static Logger logger = LoggerFactory.getLogger(BaseController.class);
 
-
     @Autowired
-    protected HttpSession        session;
+    protected HttpSession session;
     @Autowired
     protected HttpServletRequest request;
 
@@ -26,6 +25,7 @@ public abstract class BaseController implements Constant {
      * 刷新页面
      *
      * @return
+     *
      * @Date 2016年2月24日 上午11:16:22
      */
     protected String refresh() {
@@ -36,6 +36,7 @@ public abstract class BaseController implements Constant {
      * 重定向
      *
      * @param viewName
+     *
      * @return
      */
     protected String redirect(String viewName) {
@@ -49,6 +50,7 @@ public abstract class BaseController implements Constant {
 
     /**
      * @param message
+     *
      * @return
      */
     protected String refresh(String message, RedirectAttributes attributes) {

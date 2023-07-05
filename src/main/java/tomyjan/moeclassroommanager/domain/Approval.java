@@ -45,7 +45,6 @@ public class Approval extends BaseDomain {
 
     private ApprovalStatusEnum status;
 
-
     public enum ApprovalStatusEnum {
         /**
          * 待审核
@@ -62,8 +61,7 @@ public class Approval extends BaseDomain {
         /**
          * 拒绝
          */
-        REJECT_1,
-        AGREE_2,
+        REJECT_1, AGREE_2,
         /**
          * 拒绝
          */

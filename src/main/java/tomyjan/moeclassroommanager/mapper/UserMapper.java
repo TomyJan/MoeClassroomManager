@@ -10,6 +10,7 @@ public interface UserMapper extends CustomerMapper<User> {
      * 根据用户名获取用户
      *
      * @param userName
+     *
      * @return
      */
     User selectByUsername(String userName);
@@ -23,7 +24,9 @@ public interface UserMapper extends CustomerMapper<User> {
 
     /**
      * 得到用户的辅导员
+     *
      * @param userId
+     *
      * @return
      */
     User selectCounselorByUser(Integer userId);

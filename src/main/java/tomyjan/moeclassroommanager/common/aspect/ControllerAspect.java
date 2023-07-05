@@ -17,14 +17,12 @@ import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 /**
- * controller切面
- * 打印所有的请求日志
+ * controller切面 打印所有的请求日志
  */
 @Aspect
 @Component
 @Slf4j
 public class ControllerAspect {
-
 
     private static Pattern PATTERN = Pattern.compile("[ \t\n\r]");
 
@@ -42,6 +40,7 @@ public class ControllerAspect {
      * 环绕通知
      *
      * @param joinPoint
+     *
      * @return
      */
     @Around("controller()")
@@ -57,13 +56,12 @@ public class ControllerAspect {
      * 是否是http请求
      *
      * @param method
+     *
      * @return
      */
     private boolean isRequest(Method method) {
-        if (method.isAnnotationPresent(RequestMapping.class)
-                || method.isAnnotationPresent(PostMapping.class)
-                || method.isAnnotationPresent(GetMapping.class)
-                || method.isAnnotationPresent(DeleteMapping.class)
+        if (method.isAnnotationPresent(RequestMapping.class) || method.isAnnotationPresent(PostMapping.class)
+                || method.isAnnotationPresent(GetMapping.class) || method.isAnnotationPresent(DeleteMapping.class)
                 || method.isAnnotationPresent(PutMapping.class)) {
             return true;
         } else {
@@ -75,6 +73,7 @@ public class ControllerAspect {
      * 请求需要打印的日志
      *
      * @param request
+     *
      * @return
      */
     private String buildAccessLog(HttpServletRequest request) {
@@ -112,14 +111,14 @@ public class ControllerAspect {
      * 请求参数
      *
      * @param request
+     *
      * @return
      */
     private String buildRequestParam(HttpServletRequest request) {
-        StringBuilder       buffer      = new StringBuilder("param:{");
+        StringBuilder buffer = new StringBuilder("param:{");
         Enumeration<String> enumeration = request.getParameterNames();
         return getRequestString(request, buffer, enumeration);
     }
-
 
     /**
      * 请求里面的数据
@@ -127,6 +126,7 @@ public class ControllerAspect {
      * @param request
      * @param buffer
      * @param enumeration
+     *
      * @return
      */
     private String getRequestString(HttpServletRequest request, StringBuilder buffer, Enumeration<String> enumeration) {
@@ -137,6 +137,5 @@ public class ControllerAspect {
         buffer.append("}");
         return buffer.toString();
     }
-
 
 }

@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * 执行sql的时候自动填充时间
  */
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface AutoTime {

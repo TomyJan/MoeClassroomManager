@@ -38,7 +38,6 @@ public class User extends BaseDomain implements Serializable {
      */
     private Integer classesId;
 
-
     public enum UserTypeEnum {
 
         /**

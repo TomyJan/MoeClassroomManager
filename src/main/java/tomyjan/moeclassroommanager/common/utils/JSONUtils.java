@@ -20,6 +20,7 @@ public class JSONUtils {
      * 将json转成map
      *
      * @param json
+     *
      * @return
      */
     public static Map<String, Object> toMap(String json) {
@@ -31,6 +32,7 @@ public class JSONUtils {
      *
      * @param objectMapper
      * @param json
+     *
      * @return
      */
     public static Map<String, Object> toMap(String json, ObjectMapper objectMapper) {
@@ -46,6 +48,7 @@ public class JSONUtils {
      * 对象转换成map
      *
      * @param object
+     *
      * @return
      */
     public static Map<String, Object> toMap(Object object, ObjectMapper objectMapper) {
@@ -60,6 +63,7 @@ public class JSONUtils {
      * 对象转成map
      *
      * @param object
+     *
      * @return
      */
     public static Map<String, Object> toMap(Object object) {
@@ -75,6 +79,7 @@ public class JSONUtils {
      * 将对象转换为json
      *
      * @param obj
+     *
      * @return
      */
     public static String toJson(Object obj, ObjectMapper objectMapper) {
@@ -93,6 +98,7 @@ public class JSONUtils {
      * 将对象转换为json
      *
      * @param obj
+     *
      * @return
      */
     public static String toJson(Object obj) {
@@ -105,6 +111,7 @@ public class JSONUtils {
      * @param json
      * @param clazz
      * @param <T>
+     *
      * @return
      */
     public static <T> T toObj(String json, Class<T> clazz, ObjectMapper objectMapper) {
@@ -125,11 +132,12 @@ public class JSONUtils {
      * @param json
      * @param clazz
      * @param <T>
+     *
      * @return
      */
     public static <T> T toObj(String json, Class<T> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
-        //不对应字段的时候
+        // 不对应字段的时候
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return toObj(json, clazz, objectMapper);
     }
@@ -140,6 +148,7 @@ public class JSONUtils {
      * @param map
      * @param clazz
      * @param <T>
+     *
      * @return
      */
     public static <T> T toObj(Map map, Class<T> clazz, ObjectMapper objectMapper) {
@@ -156,6 +165,7 @@ public class JSONUtils {
      * @param map
      * @param clazz
      * @param <T>
+     *
      * @return
      */
     public static <T> T toObj(Map map, Class<T> clazz) {
@@ -175,11 +185,12 @@ public class JSONUtils {
      * @param clazz
      * @param objectMapper
      * @param <T>
+     *
      * @return
      */
     public static <T> T readObj(String json, String key, Class<T> clazz, ObjectMapper objectMapper) {
         Map<String, Object> objectMap = toMap(json, objectMapper);
-        Object              obj       = objectMap.get(key);
+        Object obj = objectMap.get(key);
         if (null != obj) {
             return toObj(toJson(obj, objectMapper), clazz, objectMapper);
         }
@@ -188,10 +199,12 @@ public class JSONUtils {
 
     /**
      * 将json串中的某个属性转换成对象
+     *
      * @param json
      * @param key
      * @param clazz
      * @param <T>
+     *
      * @return
      */
     public static <T> T readObj(String json, String key, Class<T> clazz) {

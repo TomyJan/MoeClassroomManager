@@ -17,9 +17,7 @@ public class UserMapperTest {
 
     @Test
     public void insertAdmin() {
-        User user = new User()
-                .setPassword(Md5Utils.encode("123456"))
-                .setUsername("admin");
+        User user = new User().setPassword(Md5Utils.encode("123456")).setUsername("admin");
         userMapper.insertSelective(user);
     }
 

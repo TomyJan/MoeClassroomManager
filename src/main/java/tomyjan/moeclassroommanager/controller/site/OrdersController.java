@@ -28,9 +28,9 @@ import java.time.LocalDate;
 public class OrdersController extends BaseController {
 
     @Autowired
-    private ApprovalService       approvalService;
+    private ApprovalService approvalService;
     @Autowired
-    private OrdersLogService      ordersLogService;
+    private OrdersLogService ordersLogService;
 
     /**
      * 预约教室
@@ -39,27 +39,28 @@ public class OrdersController extends BaseController {
      * @param date
      * @param week
      * @param attributes
+     *
      * @return
      */
     @GetMapping("approval/{roomId}")
     @Transactional
     public String approval(@PathVariable Integer roomId, String date, String week, RedirectAttributes attributes) {
-        if (loginUser().getType() == User.UserTypeEnum.STUDENT
-                || loginUser().getType() == User.UserTypeEnum.TEACHER) {
-            Approval approval = new Approval()
-                    .setOrderTime(date)
-                    .setRoomId(roomId)
-                    .setWeek(week)
-                    .setStatus(Approval.ApprovalStatusEnum.WAIT)
-                    .setUserId(loginUser().getId());
+        if (loginUser().getType() == User.UserTypeEnum.STUDENT || loginUser().getType() == User.UserTypeEnum.TEACHER) {
+            Approval approval = new Approval().setOrderTime(date).setRoomId(roomId).setWeek(week)
+                    .setStatus(Approval.ApprovalStatusEnum.WAIT).setUserId(loginUser().getId());
             approvalService.insertSelective(approval);
-            ordersLogService.insertSelective(new OrdersLog().setOrdersId(approval.getId()).setUserId(loginUser().getId()).setRemark("发起预约").setStatusNew(Approval.ApprovalStatusEnum.WAIT).setStatusOld(Approval.ApprovalStatusEnum.WAIT));
+            ordersLogService.insertSelective(new OrdersLog().setOrdersId(approval.getId())
+                    .setUserId(loginUser().getId()).setRemark("发起预约").setStatusNew(Approval.ApprovalStatusEnum.WAIT)
+                    .setStatusOld(Approval.ApprovalStatusEnum.WAIT));
             if (loginUser().getType() == User.UserTypeEnum.TEACHER) {
                 // 老师预约不需要辅导员审批
                 approval.setStatus(Approval.ApprovalStatusEnum.AGREE_1);
                 approval.setOpinion1("自动同意");
                 approvalService.updateByPrimaryKeySelective(approval);
-                ordersLogService.insertSelective(new OrdersLog().setOrdersId(approval.getId()).setUserId(loginUser().getId()).setRemark("自动同意").setStatusNew(Approval.ApprovalStatusEnum.AGREE_1).setStatusOld(Approval.ApprovalStatusEnum.WAIT));
+                ordersLogService
+                        .insertSelective(new OrdersLog().setOrdersId(approval.getId()).setUserId(loginUser().getId())
+                                .setRemark("自动同意").setStatusNew(Approval.ApprovalStatusEnum.AGREE_1)
+                                .setStatusOld(Approval.ApprovalStatusEnum.WAIT));
             }
             return redirect("/orders/me", "预约成功", attributes);
         } else {
@@ -69,14 +70,14 @@ public class OrdersController extends BaseController {
 
     /**
      * 我的预约
+     *
      * @param model
+     *
      * @return
      */
     @GetMapping("me")
     public String me(Model model) {
-        MybatisCondition condition = new MybatisCondition()
-                .eq("a.user_id", loginUser().getId())
-                .order("a.id", false);
+        MybatisCondition condition = new MybatisCondition().eq("a.user_id", loginUser().getId()).order("a.id", false);
         PageInfo<ApprovalDTO> pageInfo = approvalService.selectDtoPage(condition);
         model.addAttribute("ordersList", pageInfo.getList());
         return "site/orders/me";
@@ -84,7 +85,9 @@ public class OrdersController extends BaseController {
 
     /**
      * 我的审批
+     *
      * @param model
+     *
      * @return
      */
     @GetMapping("approval")
@@ -106,13 +109,15 @@ public class OrdersController extends BaseController {
      * @param id
      * @param result
      * @param remark
+     *
      * @return
      */
     @PostMapping("sp")
     @Transactional
     public String sp(Integer id, String result, String remark, RedirectAttributes attributes) {
-        Approval  approval  = approvalService.selectByPrimaryKey(id);
-        OrdersLog ordersLog = new OrdersLog().setOrdersId(approval.getId()).setUserId(loginUser().getId()).setRemark(remark).setStatusOld(approval.getStatus());
+        Approval approval = approvalService.selectByPrimaryKey(id);
+        OrdersLog ordersLog = new OrdersLog().setOrdersId(approval.getId()).setUserId(loginUser().getId())
+                .setRemark(remark).setStatusOld(approval.getStatus());
         // 判断是否超时
         if (LocalDate.parse(approval.getOrderTime()).compareTo(LocalDate.now()) < 1) {
             approval.setStatus(Approval.ApprovalStatusEnum.OVER_TIME);
@@ -123,10 +128,12 @@ public class OrdersController extends BaseController {
         // 楼主
         if (loginUser().getType() == User.UserTypeEnum.LANDLORD) {
             approval.setOpinion2(remark);
-            approval.setStatus("1".equalsIgnoreCase(result) ? Approval.ApprovalStatusEnum.AGREE_2 : Approval.ApprovalStatusEnum.REJECT_2);
+            approval.setStatus("1".equalsIgnoreCase(result) ? Approval.ApprovalStatusEnum.AGREE_2
+                    : Approval.ApprovalStatusEnum.REJECT_2);
         } else {
             approval.setOpinion1(remark);
-            approval.setStatus("1".equalsIgnoreCase(result) ? Approval.ApprovalStatusEnum.AGREE_1 : Approval.ApprovalStatusEnum.REJECT_1);
+            approval.setStatus("1".equalsIgnoreCase(result) ? Approval.ApprovalStatusEnum.AGREE_1
+                    : Approval.ApprovalStatusEnum.REJECT_1);
         }
         approvalService.updateByPrimaryKeySelective(approval);
         ordersLogService.insertSelective(ordersLog.setStatusNew(approval.getStatus()));

@@ -38,11 +38,11 @@ public class MybatisCondition extends BaseDomain {
         oredCriteria.add(criteria);
     }
 
-
     /**
-     * 添加  or 语句
+     * 添加 or 语句
      *
      * @param wrapper
+     *
      * @return
      */
     public MybatisCondition or(MybatisCondition wrapper) {
@@ -55,6 +55,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition eq(String column, Object value) {
@@ -67,6 +68,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition eqNot(String column, Object value) {
@@ -80,6 +82,7 @@ public class MybatisCondition extends BaseDomain {
      * @param column
      * @param value1
      * @param value2
+     *
      * @return
      */
     public MybatisCondition between(String column, Object value1, Object value2) {
@@ -92,6 +95,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition gt(String column, Object value) {
@@ -104,6 +108,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition gte(String column, Object value) {
@@ -116,6 +121,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition lt(String column, Object value) {
@@ -128,6 +134,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition lte(String column, Object value) {
@@ -139,6 +146,7 @@ public class MybatisCondition extends BaseDomain {
      * column is null
      *
      * @param column
+     *
      * @return
      */
     public MybatisCondition isNull(String column) {
@@ -150,6 +158,7 @@ public class MybatisCondition extends BaseDomain {
      * column is not null
      *
      * @param column
+     *
      * @return
      */
     public MybatisCondition isNotNull(String column) {
@@ -162,6 +171,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param values
+     *
      * @return
      */
     public MybatisCondition in(String column, List<Object> values) {
@@ -172,16 +182,17 @@ public class MybatisCondition extends BaseDomain {
         return this;
     }
 
-
     /**
      * column not in (1,2,3)
      *
      * @param column
      * @param values
+     *
      * @return
      */
     public MybatisCondition notIn(String column, List<Object> values) {
-        if (values == null || values.size() == 0) return this;
+        if (values == null || values.size() == 0)
+            return this;
         criteria.addCriterion(column + " NOT IN", values);
         return this;
     }
@@ -191,6 +202,7 @@ public class MybatisCondition extends BaseDomain {
      *
      * @param column
      * @param value
+     *
      * @return
      */
     public MybatisCondition like(String column, String value) {
@@ -205,6 +217,7 @@ public class MybatisCondition extends BaseDomain {
      * 自定义条件
      *
      * @param condition
+     *
      * @return
      */
     public MybatisCondition condition(String condition) {
@@ -212,12 +225,12 @@ public class MybatisCondition extends BaseDomain {
         return this;
     }
 
-
     /**
      * 添加排序
      *
      * @param order
-     * @param asc   是否顺序
+     * @param asc
+     *            是否顺序
      */
     public MybatisCondition order(String order, boolean asc) {
         orderByClause = orderByClause == null ? "" : orderByClause + " ,";

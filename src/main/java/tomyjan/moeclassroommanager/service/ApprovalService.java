@@ -10,7 +10,9 @@ public interface ApprovalService extends BaseService<Approval> {
 
     /**
      * 列表
+     *
      * @param condition
+     *
      * @return
      */
     PageInfo<ApprovalDTO> selectDtoPage(MybatisCondition condition);

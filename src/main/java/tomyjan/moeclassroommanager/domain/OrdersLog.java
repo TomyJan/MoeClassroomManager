@@ -19,7 +19,6 @@ public class OrdersLog extends BaseDomain implements Serializable {
 
     private Approval.ApprovalStatusEnum statusOld;
 
-
     private Approval.ApprovalStatusEnum statusNew;
 
     /**

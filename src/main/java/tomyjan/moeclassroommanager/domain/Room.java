@@ -15,7 +15,6 @@ public class Room extends BaseDomain {
 
     private String address;
 
-
     /**
      * 所属教学楼
      */
@@ -27,8 +26,7 @@ public class Room extends BaseDomain {
     private String floor;
 
     /**
-     * 星期
-     * 1 2 3 4
+     * 星期 1 2 3 4
      */
     private String week1;
     private String week2;
@@ -39,12 +37,7 @@ public class Room extends BaseDomain {
     private String week7;
 
     /**
-     * 教室规模
-     * 小教室(40人)
-     * 中教室(80人)
-     * 大教室(200人)
-     * 大学生活动中心
-     * 礼堂
+     * 教室规模 小教室(40人) 中教室(80人) 大教室(200人) 大学生活动中心 礼堂
      */
     private String scale;
 }

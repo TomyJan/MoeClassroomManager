@@ -34,9 +34,9 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
 
     @Override
     public String upload(MultipartFile file, String model) {
-        String path       = "/" + model + "/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + "/";
-        String fileName   = generateNewName(file.getOriginalFilename());
-        File   newFile    = new File(uploadPath + path + fileName);
+        String path = "/" + model + "/" + DateFormatUtils.format(new Date(), "yyyy-MM-dd") + "/";
+        String fileName = generateNewName(file.getOriginalFilename());
+        File newFile = new File(uploadPath + path + fileName);
         newFile.getParentFile().mkdirs();
         try {
             newFile.createNewFile();
@@ -51,7 +51,9 @@ public class LocalFileUploadServiceImpl implements FileUploadService {
     /**
      * 得到一个新名字
      *
-     * @param name 原来的名字
+     * @param name
+     *            原来的名字
+     *
      * @return
      */
     private String generateNewName(String name) {

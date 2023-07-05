@@ -1,6 +1,5 @@
 package tomyjan.moeclassroommanager.common.base.service;
 
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import tomyjan.moeclassroommanager.common.base.dto.BaseDomain;
@@ -19,7 +18,6 @@ public class BaseServiceImpl<E extends Mapper<T>, T extends BaseDomain> implemen
 
     @Autowired
     protected E mapper;
-
 
     @Override
     public PageInfo<T> selectPage(T dto) {
@@ -83,7 +81,6 @@ public class BaseServiceImpl<E extends Mapper<T>, T extends BaseDomain> implemen
     public int insertSelective(T t) {
         return mapper.insertSelective(t);
     }
-
 
     /**
      * 开始分页

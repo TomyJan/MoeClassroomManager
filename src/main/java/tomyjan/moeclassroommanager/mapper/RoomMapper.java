@@ -11,7 +11,9 @@ public interface RoomMapper extends Mapper<Room> {
 
     /**
      * 根据条件查找
+     *
      * @param condition
+     *
      * @return
      */
     List<RoomDTO> selectDto(MybatisCondition condition);

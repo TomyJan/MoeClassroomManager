@@ -31,29 +31,26 @@ public class FloorController extends BaseController {
     @Autowired
     private FloorService floorService;
     @Autowired
-    private UserService  userService;
+    private UserService userService;
 
     @Operation("查看教学楼")
-    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    @RequestMapping(value = "/index", method = { RequestMethod.GET })
     public String index(Model model) {
         return "console/floor/index";
     }
 
-
     @ResponseBody
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
+    @RequestMapping(value = "/list", method = { RequestMethod.GET })
     public ModelMap list(FloorDTO floor) {
         ModelMap map = new ModelMap();
-        MybatisCondition condition = new MybatisCondition()
-                .like("f.name", floor.getName())
-                .page(floor);
+        MybatisCondition condition = new MybatisCondition().like("f.name", floor.getName()).page(floor);
         PageInfo<FloorDTO> pageInfo = floorService.selectDtoPage(condition);
         map.put("pageInfo", pageInfo);
         return ReturnUtils.success("加载成功", map);
     }
 
     @Operation("教学楼详情")
-    @RequestMapping(value = "/detail/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/detail/{id}", method = { RequestMethod.GET })
     public String detail(@PathVariable Integer id, Model model) {
         Floor floor = floorService.selectByPrimaryKey(id);
         if (null != floor) {
@@ -66,18 +63,17 @@ public class FloorController extends BaseController {
     }
 
     @Operation("更新教学楼信息")
-    @RequestMapping(value = "/merge", method = {RequestMethod.POST})
+    @RequestMapping(value = "/merge", method = { RequestMethod.POST })
     public String merge(@Valid Floor floor, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             throw new MessageException(result.getAllErrors().get(0).getDefaultMessage());
         }
         floorService.merge(floor);
-        return redirect("/console/floor/index","修改成功", attributes);
+        return redirect("/console/floor/index", "修改成功", attributes);
     }
 
-
     @Operation("删除用户")
-    @RequestMapping(value = "/delete", method = {RequestMethod.GET})
+    @RequestMapping(value = "/delete", method = { RequestMethod.GET })
     @ResponseBody
     public ModelMap delete(Integer id) {
         floorService.deleteByPrimaryKey(id);
